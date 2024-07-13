@@ -19,7 +19,6 @@ const config: Options = {
 
     driver: PostgreSqlDriver,
 
-    // clientUrl: dbUrl,
     clientUrl: `postgresql://${db_c.user}:${db_c.password}@${db_c.host}:${db_c.port}/${db_c.dbName}`,
 
     debug: true,
@@ -27,7 +26,7 @@ const config: Options = {
         path: 'dist/database/migrations',
         pathTs: './src/database/migrations',
         transactional: true,
-        tableName: '_mig_user',
+        tableName: '_mig',
         emit: 'ts',
     },
     extensions: [Migrator],
@@ -35,7 +34,5 @@ const config: Options = {
 };
 
 export default config;
-
-
 
 
