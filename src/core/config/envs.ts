@@ -23,6 +23,11 @@ interface EnvVars_I {
     DB_PORT: number;
     DB_USERNAME: string;
 
+    BLAZE_APPLICATION_KEY_ID: string;
+    BLAZE_APPLICATION_KEY: string;
+    BLAZE_BUCKET: string;
+    BLAZE_BUCKET_ID: string;
+
     // DB_URL: string;
 }
 
@@ -30,7 +35,6 @@ const envsSchema = joi.object({
     PORT: joi.number().required(),
 
     NATS_SERVERS: joi.array().items(joi.string()),
-
 
     NODE_ENV: joi.string().valid(NodeEnv.DEVELOPMENT, NodeEnv.STAGING, NodeEnv.PRODUCTION).required(),
 
@@ -40,7 +44,10 @@ const envsSchema = joi.object({
     DB_PORT: joi.number().required(),
     DB_USERNAME: joi.string().required(),
 
-    // DB_URL: joi.string().required()
+    BLAZE_APPLICATION_KEY_ID: joi.string().required(),
+    BLAZE_APPLICATION_KEY: joi.string().required(),
+    BLAZE_BUCKET: joi.string().required(),
+    BLAZE_BUCKET_ID: joi.string().required(),
 
 }).unknown(true);
 
@@ -73,5 +80,9 @@ export const envs = {
     db_port: envVars.DB_PORT,
     db_username: envVars.DB_USERNAME,
 
-    // db_url: envVars.DB_URL
+    blaze_application_key_id: envVars.BLAZE_APPLICATION_KEY_ID,
+    blaze_application_key: envVars.BLAZE_APPLICATION_KEY,
+    blaze_bucket: envVars.BLAZE_BUCKET,
+    blaze_bucket_id: envVars.BLAZE_BUCKET_ID,
+
 }

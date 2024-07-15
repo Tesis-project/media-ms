@@ -16,15 +16,6 @@
           "default": "gen_random_uuid()",
           "mappedType": "uuid"
         },
-        "name": {
-          "name": "name",
-          "type": "varchar(255)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "mappedType": "string"
-        },
         "file": {
           "name": "file",
           "type": "varchar(255)",
@@ -66,6 +57,7 @@
           "nullable": false,
           "enumItems": [
             "JPG",
+            "JPEG",
             "PNG",
             "MP4",
             "PDF",
@@ -73,6 +65,15 @@
             "DOCX"
           ],
           "mappedType": "enum"
+        },
+        "src": {
+          "name": "src",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "string"
         },
         "reference": {
           "name": "reference",
@@ -84,8 +85,10 @@
           "enumItems": [
             "PROFILE_PROFILE_PIC",
             "PROFILE_COVER_PIC",
-            "PROFILE_CREDENTIALS",
-            "PROFILE_MEDIA"
+            "PROFILE_CREDENTIALS_IDENTITY",
+            "PROFILE_CREDENTIALS_PROFESSIONAL",
+            "PROFILE_MEDIA_VIDEO_GALLERY",
+            "PROFILE_MEDIA_IMAGE_GALLERY"
           ],
           "mappedType": "enum"
         },
@@ -98,19 +101,49 @@
           "nullable": false,
           "mappedType": "string"
         },
-        "src": {
-          "name": "src",
+        "user": {
+          "name": "user",
           "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
           "mappedType": "string"
+        },
+        "cloud_file_id": {
+          "name": "cloud_file_id",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "string"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamptz",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 6,
+          "default": "'2024-07-13 18:58:29'",
+          "mappedType": "datetime"
         }
       },
       "name": "media",
       "schema": "public",
       "indexes": [
+        {
+          "columnNames": [
+            "cloud_file_id"
+          ],
+          "composite": false,
+          "keyName": "media_cloud_file_id_unique",
+          "constraint": true,
+          "primary": false,
+          "unique": true
+        },
         {
           "keyName": "media_pkey",
           "columnNames": [

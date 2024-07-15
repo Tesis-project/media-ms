@@ -15,6 +15,7 @@ import {
 } from "@tesis-project/dev-globals/dist/modules/media/interfaces";
 
 import { Media_Repository } from "./media.repository.service";
+import { TempoHandler } from '@tesis-project/dev-globals/dist/core/classes';
 
 @Entity({
     tableName: 'media',
@@ -24,11 +25,6 @@ import { Media_Repository } from "./media.repository.service";
 export class Media_Ety extends Schema_key {
 
     [EntityRepositoryType]?: Media_Repository;
-
-    @Property({
-        type: 'varchar'
-    })
-    name: string;
 
     @Property({
         type: 'varchar'
@@ -48,6 +44,11 @@ export class Media_Ety extends Schema_key {
     @Property()
     format: Media_Format_Enum;
 
+    @Property({
+        type: 'varchar'
+    })
+    src: string;
+
     @Enum({ items: () => Media_Reference_Enum })
     @Property()
     reference: Media_Reference_Enum;
@@ -60,6 +61,21 @@ export class Media_Ety extends Schema_key {
     @Property({
         type: 'varchar'
     })
-    src: string;
+    user: any;
+
+    @Property({
+        type: 'varchar',
+        unique: true,
+        nullable: true
+    })
+    cloud_file_id?: string;
+
+    @Property({
+        type: 'timestamp',
+        onCreate: () => new TempoHandler().date_now(),
+        onUpdate: () => new TempoHandler().date_now(),
+    })
+    updated_at = new TempoHandler().date_now()
+
 
 }
