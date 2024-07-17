@@ -42,7 +42,7 @@ export class Blaze_FileHandlerService {
 
           const response = await this.b2.downloadFileById({
             fileId: file_id,
-            responseType: 'stream'
+            responseType: 'arraybuffer'
           });
 
             _Response = {
@@ -62,6 +62,8 @@ export class Blaze_FileHandlerService {
         return _Response;
 
     }
+
+
 
     async process_delete( file_name: string, file_id: string ): Promise<_Response_I> {
 
@@ -146,7 +148,15 @@ export class Blaze_FileHandlerService {
                 throw new Error('El archivo no es un Buffer válido');
             }
 
-            const deleted_prev = await this.process_delete(data_prev.src, data_prev.cloud_file_id);
+            const consult_file = await this.b2.getFileInfo({
+                fileId: data_prev.cloud_file_id,
+            }).catch( error =>  error);
+
+            if(consult_file?.response?.status !== 404) {
+
+                const deleted_prev = await this.process_delete(data_prev.src, data_prev.cloud_file_id);
+
+            }
 
             const response = await this.b2.uploadFile({
                 fileName: `${data_prev.folder}${file.originalname}`,
@@ -165,8 +175,8 @@ export class Blaze_FileHandlerService {
             };
 
         } catch (error) {
-            console.error('Error al subir el archivo:', error);
 
+            console.error('Error al subir el archivo:', error);
             this.logger.error(`[Process upload] Error: ${error.message}`);
             this.exceptionsHandler.EmitException(error, `${this.service}.process_upload`);
 

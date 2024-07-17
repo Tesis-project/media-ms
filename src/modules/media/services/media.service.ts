@@ -14,6 +14,8 @@ import { RpcException } from '@nestjs/microservices';
 import { StorageFile } from '../../../core/classes';
 import { Blaze_FileHandlerService } from '.';
 
+import * as uuid from 'uuid';
+
 @Injectable()
 export class MediaService {
 
@@ -29,7 +31,8 @@ export class MediaService {
 
     }
 
-    async get_oneFile(_id: string) {
+
+    async get_oneFile(_id: string): Promise<_Response_I> {
 
         let _Response: _Response_I;
 
@@ -37,7 +40,14 @@ export class MediaService {
 
             const file = await this._Media_Repository.findOne(
                 {
-                    _id: _id
+                    $or: [
+                        {
+                            _id: _id
+                        },
+                        {
+                            cloud_file_id: _id
+                        }
+                    ]
                 }
             );
 
@@ -57,20 +67,15 @@ export class MediaService {
             const buffer = response.data.data;
             const contentType = response.data.headers['content-type'];
 
-            const storageFile = new StorageFile();
-            storageFile.buffer = buffer;
-            storageFile.metadata = new Map<string, string>();
-
             _Response = {
                 ok: true,
                 statusCode: 200,
                 message: 'Archivo encontrado',
                 data: {
-                    storageFile: storageFile,
+                    storageFile: buffer.toString('base64'),
                     contentType: contentType
                 }
             }
-
 
         } catch (error) {
 
@@ -136,7 +141,8 @@ export class MediaService {
                 statusCode: 200,
                 message: 'Archivo media actualizado correctamente',
                 data: {
-                    ...update_media
+                    ...update_media,
+                    _id: _id
                 }
             }
 
@@ -227,7 +233,8 @@ export class MediaService {
                     folder: folder,
                     cloud_file_id: uploaded_file.data.fileId,
                     src: folder + file.originalname,
-                    user: user_auth.user
+                    user: user_auth.user,
+                    _id: uuid.v4()
                 },
                 _em: f_em
             });
@@ -239,7 +246,8 @@ export class MediaService {
                 statusCode: 201,
                 message: 'Archivo creado correctamente',
                 data: {
-                    ...new_file
+                    ...new_file,
+                    _id: new_file._id
                 }
             }
 

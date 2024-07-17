@@ -1,4 +1,4 @@
-import { Controller, ParseUUIDPipe, UploadedFile } from '@nestjs/common';
+import { Controller, ParseUUIDPipe } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 
 import { Create_Media_Dto } from '@tesis-project/dev-globals/dist/modules/media/dto/create-media.dto';
@@ -16,7 +16,7 @@ export class MediaController {
 
     @MessagePattern('media.serve.file')
     serveFile(
-        @Payload('_id', ParseUUIDPipe) _id: string,
+        @Payload('_id') _id: string,
     ) {
 
         return this.mediaService.get_oneFile(_id);
