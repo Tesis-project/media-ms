@@ -6,7 +6,7 @@ import { Create_Media_Dto } from '@tesis-project/dev-globals/dist/modules/media/
 
 import { EntityManager } from '@mikro-orm/core';
 import { Auth_User_I_Dto } from '@tesis-project/dev-globals/dist/modules/auth/dto';
-import { Media_Format_Enum, Media_Reference_Enum } from '@tesis-project/dev-globals/dist/modules/media/interfaces';
+import { Media_Format_Enum, Media_I, Media_Reference_Enum } from '@tesis-project/dev-globals/dist/modules/media/interfaces';
 import { ExceptionsHandler } from '../../../core/helpers';
 import { Media_Ety } from '../entities/media.entity';
 import { Media_Repository } from '../entities/media.repository.service';
@@ -15,6 +15,7 @@ import { StorageFile } from '../../../core/classes';
 import { Blaze_FileHandlerService } from '.';
 
 import * as uuid from 'uuid';
+import { envs } from '../../../core/config/envs';
 
 @Injectable()
 export class MediaService {
@@ -31,6 +32,54 @@ export class MediaService {
 
     }
 
+
+    async get_oneFileMeta(_id: string): Promise<_Response_I<Media_I>> {
+
+        let _Response: _Response_I;
+
+        try {
+
+            const file = await this._Media_Repository.findOne(
+                {
+                    _id: _id
+                }
+            );
+
+            if (!file) {
+                _Response = {
+                    ok: false,
+                    statusCode: 404,
+                    message: 'Archivo media no encontrado',
+                    data: null
+                }
+
+                throw new RpcException(_Response)
+            }
+
+            _Response = {
+                ok: true,
+                statusCode: 200,
+                message: 'Archivo encontrado',
+                data: {
+                    // ...file,
+                    _id: file._id,
+                    file: file.file,
+                    src: envs.blaze_endpoint+ '/' + file.src
+                }
+            }
+
+        } catch (error) {
+
+            console.log('error', error);
+
+            this.logger.error(`[Get one file meta] Error: ${error}`);
+            this.ExceptionsHandler.EmitException(error, `${this.service}.get_oneFileMeta`);
+
+        }
+
+        return _Response;
+
+    }
 
     async get_oneFile(_id: string): Promise<_Response_I> {
 
@@ -59,13 +108,13 @@ export class MediaService {
                     data: null
                 }
                      throw new RpcException(_Response)
-
             }
 
-            const response = await this._Blaze_FileHandlerService.get_file(file.cloud_file_id);
+            const {data} = await this._Blaze_FileHandlerService.get_file(file.cloud_file_id);
 
-            const buffer = response.data.data;
-            const contentType = response.data.headers['content-type'];
+            const buffer = data.data;
+            const contentType = data.headers['content-type'];
+            const file_name: string = file.file;
 
             _Response = {
                 ok: true,
@@ -73,14 +122,14 @@ export class MediaService {
                 message: 'Archivo encontrado',
                 data: {
                     storageFile: buffer.toString('base64'),
-                    contentType: contentType
+                    contentType: contentType,
+                    file: file_name
                 }
             }
 
         } catch (error) {
 
             console.log('error', error);
-
             this.logger.error(`[Get one file] Error: ${error}`);
             this.ExceptionsHandler.EmitException(error, `${this.service}.get_oneFile`);
 

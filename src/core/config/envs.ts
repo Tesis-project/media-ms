@@ -29,6 +29,7 @@ interface EnvVars_I {
     BLAZE_BUCKET_ID: string;
 
     // DB_URL: string;
+    BLAZE_ENDPOINT: string;
 }
 
 const envsSchema = joi.object({
@@ -48,6 +49,7 @@ const envsSchema = joi.object({
     BLAZE_APPLICATION_KEY: joi.string().required(),
     BLAZE_BUCKET: joi.string().required(),
     BLAZE_BUCKET_ID: joi.string().required(),
+    BLAZE_ENDPOINT: joi.string().required(),
 
 }).unknown(true);
 
@@ -84,5 +86,6 @@ export const envs = {
     blaze_application_key: envVars.BLAZE_APPLICATION_KEY,
     blaze_bucket: envVars.BLAZE_BUCKET,
     blaze_bucket_id: envVars.BLAZE_BUCKET_ID,
+    blaze_endpoint: envVars.BLAZE_ENDPOINT
 
 }

@@ -14,14 +14,23 @@ export class MediaController {
         private readonly mediaService: MediaService
     ) { }
 
-    @MessagePattern('media.serve.file')
-    serveFile(
+    @MessagePattern('media.get_meta.file')
+    get_oneFileMeta(
         @Payload('_id') _id: string,
     ) {
 
-        return this.mediaService.get_oneFile(_id);
+        return this.mediaService.get_oneFileMeta(_id);
 
     }
+
+    // @MessagePattern('media.serve.file')
+    // serveFile(
+    //     @Payload('_id') _id: string,
+    // ) {
+
+    //     return this.mediaService.get_oneFile(_id);
+
+    // }
 
     @MessagePattern('media.create.single')
     create_single(
