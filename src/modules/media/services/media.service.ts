@@ -6,12 +6,11 @@ import { Create_Media_Dto } from '@tesis-project/dev-globals/dist/modules/media/
 
 import { EntityManager } from '@mikro-orm/core';
 import { Auth_User_I_Dto } from '@tesis-project/dev-globals/dist/modules/auth/dto';
-import { Media_Format_Enum, Media_I, Media_Reference_Enum } from '@tesis-project/dev-globals/dist/modules/media/interfaces';
+import { Media_Format_Enum, Media_I } from '@tesis-project/dev-globals/dist/modules/media/interfaces';
 import { ExceptionsHandler } from '../../../core/helpers';
 import { Media_Ety } from '../entities/media.entity';
 import { Media_Repository } from '../entities/media.repository.service';
 import { RpcException } from '@nestjs/microservices';
-import { StorageFile } from '../../../core/classes';
 import { Blaze_FileHandlerService } from '.';
 
 import * as uuid from 'uuid';
@@ -69,8 +68,6 @@ export class MediaService {
             }
 
         } catch (error) {
-
-            console.log('error', error);
 
             this.logger.error(`[Get one file meta] Error: ${error}`);
             this.ExceptionsHandler.EmitException(error, `${this.service}.get_oneFileMeta`);
