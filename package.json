@@ -42,7 +42,7 @@
         "reflect-metadata": "^0.2.2",
         "rxjs": "^7.8.1",
         "uuid": "^10.0.0",
-        "@tesis-project/dev-globals": "^1.0.766"
+        "@tesis-project/dev-globals": "^1.0.780"
     },
     "devDependencies": {
         "@nestjs/cli": "^10.4.2",

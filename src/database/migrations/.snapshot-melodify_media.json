@@ -23,6 +23,7 @@
           "autoincrement": false,
           "primary": false,
           "nullable": false,
+          "length": 255,
           "mappedType": "string"
         },
         "folder": {
@@ -32,6 +33,7 @@
           "autoincrement": false,
           "primary": false,
           "nullable": false,
+          "length": 255,
           "mappedType": "string"
         },
         "type": {
@@ -73,6 +75,7 @@
           "autoincrement": false,
           "primary": false,
           "nullable": false,
+          "length": 255,
           "mappedType": "string"
         },
         "reference": {
@@ -88,7 +91,9 @@
             "PROFILE_CREDENTIALS_IDENTITY",
             "PROFILE_CREDENTIALS_PROFESSIONAL",
             "PROFILE_MEDIA_VIDEO_GALLERY",
-            "PROFILE_MEDIA_IMAGE_GALLERY"
+            "PROFILE_MEDIA_IMAGE_GALLERY",
+            "VACANT_PIC",
+            "VACANT_CONTRACT_DOCUMENT"
           ],
           "mappedType": "enum"
         },
@@ -99,6 +104,7 @@
           "autoincrement": false,
           "primary": false,
           "nullable": false,
+          "length": 255,
           "mappedType": "string"
         },
         "user": {
@@ -108,6 +114,7 @@
           "autoincrement": false,
           "primary": false,
           "nullable": false,
+          "length": 255,
           "mappedType": "string"
         },
         "cloud_file_id": {
@@ -117,6 +124,7 @@
           "autoincrement": false,
           "primary": false,
           "nullable": true,
+          "length": 255,
           "mappedType": "string"
         },
         "updated_at": {
@@ -127,7 +135,7 @@
           "primary": false,
           "nullable": false,
           "length": 6,
-          "default": "'2024-07-13 18:58:29'",
+          "default": "'2024-09-02 10:38:15'",
           "mappedType": "datetime"
         }
       },
