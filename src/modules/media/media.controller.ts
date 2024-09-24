@@ -23,15 +23,6 @@ export class MediaController {
 
     }
 
-    // @MessagePattern('media.serve.file')
-    // serveFile(
-    //     @Payload('_id') _id: string,
-    // ) {
-
-    //     return this.mediaService.get_oneFile(_id);
-
-    // }
-
     @MessagePattern('media.create.single')
     create_single(
         @Payload('file') file: Express.Multer.File,
